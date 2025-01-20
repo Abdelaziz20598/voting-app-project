@@ -49,10 +49,10 @@ Detailed steps for both methods are provided in their respective README files:
 ---
 
 ## Usage
-![pictures-of-the-project-running:]
-(./pictures-of-the-project-running/1.png)
-(./pictures-of-the-project-running/2.png)
-(./pictures-of-the-project-running/3.png)
-(./pictures-of-the-project-running/4.png)
-(./pictures-of-the-project-running/5.png)
-(./pictures-of-the-project-running/deleting-project-files.png)
+screeshots for the running application 
+![pictures-of-the-project-running-1](./pictures-of-the-project-running/1.png)
+![pictures-of-the-project-running-2](./pictures-of-the-project-running/2.png)
+![pictures-of-the-project-running-3](./pictures-of-the-project-running/3.png)
+![pictures-of-the-project-running-4](./pictures-of-the-project-running/4.png)
+![pictures-of-the-project-running-5](./pictures-of-the-project-running/5.png)
+![pictures-of-the-project-running-6](./pictures-of-the-project-running/deleting-project-files.png)
