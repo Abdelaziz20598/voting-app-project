@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-app-deployment
+  namespace: prod
+  labels:
+    name: worker-app-deployment
+    app: demo-voting-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: worker-app-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      labels:
+        name: worker-app-pod
+        app: demo-voting-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: job
+                operator: In
+                values:
+                - app
+      containers:
+        - name: worker-app # Name of the container
+          image: kodekloud/examplevotingapp_worker:v2  # Image of the container
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              cpu: 250m
+              memory: 400Mi

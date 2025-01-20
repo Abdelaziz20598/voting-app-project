@@ -1,0 +1,38 @@
+---
+apiVersion: v1  # API version
+kind: Pod  # Type of resource   
+metadata:  # Metadata of the resource
+  name: postgres-pod  # Name of the pod
+  namespace: prod  # Namespace for the pod
+  labels:  # Labels of the pod
+    name: postgres-pod # Label of the pod
+    app: demo-voting-app
+spec:  # Specification of the pod
+  containers:  # Containers in the pod
+  - name: postgres # Name of the container6
+    image: postgres  # Image of the container
+    ports:  # Ports of the container
+    - containerPort: 5432  # Port of the container
+    #Must specify resources as i use resourcequota
+    resources:  # Resource limits and requests for the container
+      requests:  # Resource requests for the container
+        cpu: 200m
+        memory: 200Mi
+      limits:  # Resource limits for the container
+        cpu: 250m
+        memory: 400Mi
+    readinessProbe:  # Readiness probe for the container
+      tcpSocket:
+        port: 5432
+      initialDelaySeconds: 5  # Delay before probing starts
+      periodSeconds: 10  # Probe every 10 seconds
+    envFrom:
+      - secretRef:
+          name: db-secret
+    # env:
+    #   - name: POSTGRES_USER
+    #     value: "postgres"
+    #   - name: POSTGRES_PASSWORD
+    #     value: "postgres"
+  nodeSelector:
+    job: db

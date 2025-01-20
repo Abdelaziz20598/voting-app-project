@@ -1,0 +1,23 @@
+---
+apiVersion: v1  # API version
+kind: Pod  # Type of resource   
+metadata:  # Metadata of the resource
+  name: worker-app-pod  # Name of the pod
+  namespace: prod  # Namespace for the pod
+  labels:  # Labels of the pod
+    name: worker-app-pod  # Label of the pod
+    app: demo-voting-app
+spec:  # Specification of the pod
+  containers:  # Containers in the pod
+  - name: worker-app # Name of the container
+    image: kodekloud/examplevotingapp_worker:v2  # Image of the container
+    #Must specify resources as i use resourcequota
+    resources:  # Resource limits and requests for the container
+      requests:  # Resource requests for the container
+        cpu: 200m
+        memory: 400Mi
+      limits:  # Resource limits for the container
+        cpu: 300m
+        memory: 800Mi
+  nodeSelector:
+    job: app

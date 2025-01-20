@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  namespace: prod
+  labels:
+    name: redis-deployment
+    app: demo-voting-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: redis-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      labels:
+        name: redis-pod
+        app: demo-voting-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: job
+                operator: In
+                values:
+                - db
+      containers:
+        - name: redis
+          image: redis
+          ports:
+          - containerPort: 6379
+          resources:  # Resource limits and requests for the container
+            requests:  # Resource requests for the container
+              cpu: 100m
+              memory: 200Mi
+            limits:  # Resource limits for the container
+              cpu: 250m
+              memory: 400Mi
+          readinessProbe:
+            exec:
+              command:
+              - redis-cli
+              - ping
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command:
+              - redis-cli
+              - ping
+            initialDelaySeconds: 15
+            periodSeconds: 20

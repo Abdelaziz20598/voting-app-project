@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voting-service
+  namespace: prod  # Namespace for the service
+  labels:
+    name: voting-service
+    app: demo-voting-app
+spec:
+  selector:
+      name: voting-app-pod
+      app: demo-voting-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30004  # Node port for external access
+  type: NodePort  # Service type

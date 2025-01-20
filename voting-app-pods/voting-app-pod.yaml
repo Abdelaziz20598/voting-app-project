@@ -1,0 +1,31 @@
+---
+apiVersion: v1  # API version
+kind: Pod  # Type of resource   
+metadata:  # Metadata of the resource
+  name: voting-app-pod  # Name of the pod
+  namespace: prod  # Namespace for the pod
+  labels:  # Labels of the pod
+    name: voting-app-pod  # Label of the pod
+    app: demo-voting-app
+spec:  # Specification of the pod
+  containers:  # Containers in the pod
+  - name: voting-app  # Name of the container
+    image: kodekloud/examplevotingapp_vote:v1  # Image of the container
+    ports:  # Ports of the container
+    - containerPort: 80  # Port of the container
+    #Must specify resources as i use resourcequota
+    resources:  # Resource limits and requests for the container
+      requests:  # Resource requests for the container
+        cpu: 100m
+        memory: 200Mi
+      limits:  # Resource limits for the container
+        cpu: 250m
+        memory: 400Mi
+    readinessProbe:  # Readiness probe for the container
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 5
+      periodSeconds: 10
+  nodeSelector:
+    job: app

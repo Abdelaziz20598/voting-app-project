@@ -1,0 +1,65 @@
+#2 using node affinity and pod anti affinity 2 nodes with the same label
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voting-app-deployment
+  namespace: prod  # Namespace for the pod
+  labels:
+    name: voting-app-deployment
+    app: demo-voting-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: voting-app-pod
+      app: demo-voting-app
+  template:
+    metadata:
+      labels:
+        name: voting-app-pod
+        app: demo-voting-app
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: job
+                operator: In
+                values:
+                - app
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: name
+                operator: In
+                values:
+                - voting-app-pod # Avoid scheduling the same app on the same node
+            topologyKey: "kubernetes.io/hostname"  # Spread pods across nodes
+
+      containers:  # Containers in the pod
+        - name: voting-app  # Name of the container
+          image: kodekloud/examplevotingapp_vote:v1  # Image of the container
+          ports:  # Ports of the container
+          - containerPort: 80  # Port of the container
+          #Must specify resources as i use resourcequota
+          resources:  # Resource limits and requests for the container
+            requests:  # Resource requests for the container
+              cpu: 100m
+              memory: 200Mi
+            limits:  # Resource limits for the container
+              cpu: 250m
+              memory: 400Mi
+          readinessProbe:  # Readiness probe for the container
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 1
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 2
+            periodSeconds: 5
