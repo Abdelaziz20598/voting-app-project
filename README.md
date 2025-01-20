@@ -43,8 +43,8 @@ This project provides two approaches to deployment:
 
 Detailed steps for both methods are provided in their respective README files:
 
-- [voting-app-Pod-Based Deployment Instructions](./README-pods-steps.md)
-- [voting-app-Deployment-Based Deployment Instructions](./README-deployment-steps.md)
+- [voting-app-Pod-Based Deployment Instructions](./voting-app-pods/README.md)
+- [voting-app-Deployment-Based Deployment Instructions](./voting-app-deploy/README.md)
 
 ---
 

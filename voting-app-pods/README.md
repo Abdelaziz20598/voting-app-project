@@ -1,4 +1,4 @@
-# Voting App
+# Voting App pods instructions
 
 A lightweight and scalable voting application designed for modern environments. It is deployed on Kubernetes using both pods and deployment files, allowing for flexibility in how the app is managed and scaled.
 
